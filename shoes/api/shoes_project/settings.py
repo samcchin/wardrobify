@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django_crontab",
     "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,12 +54,25 @@ MIDDLEWARE = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8100",
+    "http://localhost:8080",
+    "http://localhost:8090",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8100",
+    "http://localhost:8080",
+    "http://localhost:8090",
 ]
+
 CORS_ALLOW_CREDENTIALS = True
+
+CRONJOBS = [
+    ("* * * * *", "attendees.poll.get_conferences"),
+]
 
 DJWTO_MODE = "TWO-COOKIES"
 DJWTO_ACCESS_TOKEN_LIFETIME = None

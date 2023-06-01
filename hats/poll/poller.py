@@ -11,6 +11,15 @@ django.setup()
 
 # Import models from hats_rest, here.
 # from hats_rest.models import Something
+from api.hats_rest.models import HatsVO
+
+
+def get_locations():
+    response = requests.get("http://wardrobe-api:8000/api/locations/")
+    content = json.loads(response.content)
+    for location in content["locations"]:
+
+
 
 def poll():
     while True:
