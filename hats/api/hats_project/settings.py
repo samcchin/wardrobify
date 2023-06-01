@@ -71,7 +71,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CRONJOBS = [
-    ("* * * * *", "attendees.poll.get_conferences"),
+    ("* * * * *", "hats.poll.get_locations"),
 ]
 
 DJWTO_MODE = "TWO-COOKIES"

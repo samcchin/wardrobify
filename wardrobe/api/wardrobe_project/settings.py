@@ -72,10 +72,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CRONJOBS = [
-    ("* * * * *", "attendees.poll.get_conferences"),
-]
-
 DJWTO_MODE = "TWO-COOKIES"
 DJWTO_ACCESS_TOKEN_LIFETIME = None
 
