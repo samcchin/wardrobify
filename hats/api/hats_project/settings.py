@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "django_crontab",
     "corsheaders",
+    "hats_rest.apps.HatsApiConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
