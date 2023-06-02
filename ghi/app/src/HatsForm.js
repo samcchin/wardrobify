@@ -6,14 +6,15 @@ function HatsForm() {
     const [fabric, setFabric] = useState('');
     const [color, setColor] = useState('');
     const [pictureUrl, setPictureUrl] = useState('');
-    const [location, setLocation] = useState([]);
+    const [location, setLocation] = useState('');
 
     const fetchData = async () => {
-        const url = 'http://localhost:8100/api/locations/'
+        const url = 'http://localhost:8090/api/locations/'
         const response = await fetch(url);
 
         if (response.ok){
             const data = await response.json();
+            console.log(data)
             setLocations(data.locations);
         }
     };
@@ -117,7 +118,13 @@ function HatsForm() {
                   <label htmlFor="pictureUrl">Picture URL</label>
                 </div>
                 <div className="mb-3">
-                  <select onChange={handleLocationChange} required value={location} name="location" id="location" className="form-select">
+                  <select
+                    onChange={handleLocationChange}
+                    required
+                    value={location}
+                    name="location"
+                    id="location"
+                    className="form-select">
                     <option value="">Choose a location</option>
                     {locations.map((location)=>{
                       return (

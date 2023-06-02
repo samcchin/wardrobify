@@ -3,11 +3,11 @@ import React, {useState} from 'react';
 
 
 function HatsList(props) {
+    const [hats, setHats] = useState('');
+
     if (!props.hats || !Array.isArray(props.hats)) {
       return null;
     }
-
-    const [hats, setHats] = useState('');
 
     const deleteHat = async (hatId) => {
         try {
@@ -32,6 +32,9 @@ function HatsList(props) {
         <thead>
             <tr>
             <th>Hats</th>
+            <th>Fabric</th>
+            <th>Color</th>
+            <th>Picture URL</th>
             <th>Location</th>
             <th>Delete Hat</th>
             </tr>
@@ -41,6 +44,9 @@ function HatsList(props) {
             return (
                 <tr key={hat.id}>
                 <td>{hat.style_name}</td>
+                <td>{hat.fabric}</td>
+                <td>{hat.color}</td>
+                <td>{hat.picture_url}</td>
                 <td>{hat.location.closet_name}</td>
                 <td>
                     <button onClick={()=>deleteHat(hat.id)}>Delete</button>
@@ -51,7 +57,7 @@ function HatsList(props) {
         </tbody>
         </table>
     </>
-    );
+    )
   }
 
-  export default HatsList;
+  export default HatsList
