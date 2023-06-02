@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django_crontab",
     "corsheaders",
     "hats_rest.apps.HatsApiConfig",
     'django.contrib.admin',
@@ -71,9 +70,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CRONJOBS = [
-    ("* * * * *", "hats.poll.get_locations"),
-]
 
 DJWTO_MODE = "TWO-COOKIES"
 DJWTO_ACCESS_TOKEN_LIFETIME = None

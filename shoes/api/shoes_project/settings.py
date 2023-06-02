@@ -70,9 +70,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CRONJOBS = [
-    ("* * * * *", "shoes.poll.get_bins"),
-]
 
 DJWTO_MODE = "TWO-COOKIES"
 DJWTO_ACCESS_TOKEN_LIFETIME = None

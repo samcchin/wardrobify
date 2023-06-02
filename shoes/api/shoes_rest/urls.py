@@ -1,5 +1,5 @@
 from django.urls import path
-from views import api_list_shoes, api_show_shoe
+from shoes_rest.views import api_list_shoes, api_show_shoe
 
 
 urlpatterns = [

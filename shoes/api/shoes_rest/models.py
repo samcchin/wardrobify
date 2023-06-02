@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class BinVO(models.Model):
@@ -6,6 +7,15 @@ class BinVO(models.Model):
     closet_name = models.CharField(max_length=100)
     bin_number = models.PositiveSmallIntegerField()
     bin_size = models.PositiveSmallIntegerField()
+
+    def get_api_url(self):
+        return reverse("api_bin", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return f"{self.closet_name} - {self.bin_number}/{self.bin_size}"
+
+    class Meta:
+        ordering = ("closet_name", "bin_number", "bin_size")
 
 class Shoe(models.Model):
     manufacturer = models.CharField(max_length=200)
