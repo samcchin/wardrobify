@@ -3,19 +3,21 @@ import React, {useState} from 'react';
 
 
 function HatsList(props) {
+    const [hats, setHats] = useState([]);
+    const [hasDeletedSuccessfully, setHasDeletedSuccessfully] = useState(false);
+
     if (!props.hats || !Array.isArray(props.hats)) {
       return null;
     }
 
-    const [hats, setHats] = useState('');
-
     const deleteHat = async (hatId) => {
         try {
-            const response = await fetch(`/api/hats/${hatId}`, {
+            const response = await fetch(`http://localhost:8090/api/hats/${hatId}`, {
                 method: 'DELETE'
             });
             if (response.ok){
                 setHats((prevHats) => prevHats.filter((hat)=> hat.id !== hatId));
+                setHasDeletedSuccessfully(true)
             }
             else {
                 console.error('Unable to delete hat');
@@ -25,10 +27,16 @@ function HatsList(props) {
             console.error('Error', error);
         }
     }
+    let messageClasses = 'alert alert-success d-none mb-0';
+    let tableClasses = 'table table-striped table-hover';
+    if (hasDeletedSuccessfully){
+        messageClasses = 'alert alert-success mb-0';
+        tableClasses="table table-striped table-hover d-none"
+    }
 
     return (
     <>
-        <table className="table table-striped table-hover">
+        <table className={tableClasses}>
         <thead>
             <tr>
             <th>Hats</th>
@@ -56,8 +64,12 @@ function HatsList(props) {
             })}
         </tbody>
         </table>
+        {hasDeletedSuccessfully && (
+        <div className={messageClasses} id="success-message">
+                You've successfully deleted a hat!
+        </div>
+    )}
     </>
-    );
-  }
+)}
 
-  export default HatsList;
+  export default HatsList

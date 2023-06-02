@@ -14,10 +14,39 @@ function HatsForm() {
 
         if (response.ok){
             const data = await response.json();
-            console.log(data)
             setLocations(data.locations);
         }
     };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = {};
+        data.style_name = style;
+        data.fabric = fabric;
+        data.color = color;
+        data.picture_url = pictureUrl;
+        data.location = location;
+
+        const hatUrl = 'http://localhost:8090/api/hats/';
+        const fetchConfig = {
+          method: "post",
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const response = await fetch(hatUrl, fetchConfig);
+        if (response.ok) {
+          const newHat = await response.json();
+          console.log(newHat);
+
+          setStyle('');
+          setFabric('');
+          setColor('');
+          setPictureUrl('');
+          setLocation('');
+        }
+    }
 
     useEffect(() => {
         fetchData();
@@ -48,36 +77,7 @@ function HatsForm() {
         setLocation(value)
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const data = {};
-        data.style = style;
-        data.fabric = fabric;
-        data.color = color;
-        data.picture_url = pictureUrl;
-        data.location = location;
 
-
-        const hatUrl = 'http://localhost:8090/api/hats/';
-        const fetchConfig = {
-          method: "post",
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        const response = await fetch(hatUrl, fetchConfig);
-        if (response.ok) {
-          const newHat = await response.json();
-          console.log(newHat);
-
-          setStyle('');
-          setFabric('');
-          setColor('');
-          setPictureUrl('');
-          setLocation('');
-        }
-      }
 
     return (
         <>
@@ -128,7 +128,7 @@ function HatsForm() {
                     <option value="">Choose a location</option>
                     {locations.map((location)=>{
                       return (
-                          <option key={location.href} value={location.href}>
+                          <option key={location.id} value={location.id}>
                               {location.closet_name}
                           </option>
                       )
