@@ -6,26 +6,20 @@ from common.json import ModelEncoder
 from .models import Hat, LocationVO
 
 
-class LocationVODetailEncoder(ModelEncoder):
+class LocationVOEncoder(ModelEncoder):
     model = LocationVO
     properties = [
         "import_href",
-        "closet_name",
-        "section_number",
-        "shelf_nmber",
-        "id",
+        "closet_name"
     ]
 
 
 class HatListEncoder(ModelEncoder):
     model = Hat
     properties = [
-        "style_name",
         "id",
+        "style_name",
     ]
-
-    def get_extra_data(self, o):
-        return {"style_name": o.hat.style_name}
 
 
 class HatDetailEncoder(ModelEncoder):
@@ -38,37 +32,69 @@ class HatDetailEncoder(ModelEncoder):
         "location",
     ]
     encoders = {
-        "location": LocationVODetailEncoder(),
+        "location": LocationVOEncoder(),
     }
 
+    def get_extra_data(self, o):
+        return {"location": o.location.closet_name}
 
-# Lists the locations
-@require_http_methods(["GET"])
+
+@require_http_methods(["GET", "POST"])
 def api_list_locations(request):
-    locations = LocationVO.objects.all()
-    return JsonResponse(
-        {'locations': locations},
-        encoder=LocationVODetailEncoder,
-    )
+    if request.method == "GET":
+        locations = LocationVO.objects.all()
+        return JsonResponse(
+            {'locations': locations},
+            encoder=LocationVOEncoder,
+        )
+    else:
+        content = json.loads(request.body)
+        location = LocationVO.objects.create(**content)
+        return JsonResponse(
+            location,
+            encoder=LocationVOEncoder,
+            safe=False,
+        )
+
+
+@require_http_methods(["DELETE", "GET"])
+def api_location_details(request, location_id):
+    if request.method == "DELETE":
+        count, _ = LocationVO.objects.filter(id=location_id).delete()
+        return JsonResponse(
+            {"deleted": count > 0}
+        )
+    else:
+        try:
+            location = LocationVO.objects.get(id=location_id)
+            return JsonResponse(
+                location,
+                encoder=LocationVOEncoder,
+                safe=False
+            )
+        except LocationVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid id"},
+                status=400
+            )
 
 
 # Lists the hat names and the link to the hat location
 # for the specified location id.
 @require_http_methods(["GET", "POST"])
-def api_list_hats(request, location_vo_id=None):
+def api_list_hats(request, location_id=None):
     if request.method == "GET":
-        if location_vo_id is not None:
-            hats = Hat.objects.filter(location=location_vo_id)
+        if location_id is not None:
+            hats = Hat.objects.filter(location=location_id)
         else:
             hats = Hat.objects.all()
         return JsonResponse(
             {"hats": hats},
             encoder=HatListEncoder,
+            safe=False
         )
     else:
         content = json.loads(request.body)
-
-        # Get the Location object and put it in the content dict
         try:
             location_href = content["location"]
             location = LocationVO.objects.get(import_href=location_href)
@@ -87,18 +113,23 @@ def api_list_hats(request, location_vo_id=None):
         )
 
 
-# Returns the details for the Hat model specified
-# by the pk parameter.
 @require_http_methods(["DELETE", "GET"])
-def api_show_hat(request, pk):
-    if request.method == "GET":
-        hat = Hat.objects.get(id=pk)
+def api_hat_details(request, hats_id):
+    if request.method == "DELETE":
+        count, _ = Hat.objects.filter(id=hats_id).delete()
         return JsonResponse(
-            hat,
-            encoder=HatDetailEncoder,
-            safe=False,
+            {"deleted": count > 0}
         )
     else:
-        request.method == "DELETE"
-        count, _ = Hat.objects.filter(id=pk).delete()
-        return JsonResponse({"deleted": count > 0})
+        try:
+            hat = Hat.objects.get(id=hats_id)
+            return JsonResponse(
+                hat,
+                encoder=HatDetailEncoder,
+                safe=False
+            )
+        except Hat.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid id"},
+                status=400
+            )
