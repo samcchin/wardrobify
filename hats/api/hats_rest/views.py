@@ -19,7 +19,11 @@ class HatListEncoder(ModelEncoder):
     properties = [
         "id",
         "style_name",
+        "location",
     ]
+    encoders = {
+        "location": LocationVOEncoder(),
+    }
 
 
 class HatDetailEncoder(ModelEncoder):
@@ -57,26 +61,50 @@ def api_list_locations(request):
         )
 
 
-@require_http_methods(["DELETE", "GET"])
-def api_location_details(request, location_id):
-    if request.method == "DELETE":
-        count, _ = LocationVO.objects.filter(id=location_id).delete()
-        return JsonResponse(
-            {"deleted": count > 0}
-        )
-    else:
-        try:
-            location = LocationVO.objects.get(id=location_id)
-            return JsonResponse(
-                location,
-                encoder=LocationVOEncoder,
-                safe=False
-            )
-        except LocationVO.DoesNotExist:
-            return JsonResponse(
-                {"message": "Invalid id"},
-                status=400
-            )
+# @require_http_methods(["DELETE", "GET", "PUT"])
+# def api_location_details(request, location_id):
+#     if request.method == "GET":
+#         try:
+#             location=LocationVO.objects.get(id=location_id)
+#             return JsonResponse(
+#                 location,
+#                 encoder=LocationVOEncoder,
+#                 safe=False
+#             )
+#         except LocationVO.DoesNotExist:
+#             response = JsonResponse({"message":"Does not exist"})
+#             response.status_code = 404
+#             return response
+#     elif request.method =="DELETE":
+#         try:
+#             location = LocationVO.objects.get(id=location_id)
+#             location.delete()
+#             return JsonResponse(
+#                 location,
+#                 encoder=LocationVOEncoder,
+#                 safe=False
+#             )
+#         except LocationVO.DoesNotExist:
+#             return JsonResponse({"message":"Does"})
+# def api_location_details(request, location_id):
+#     if request.method == "DELETE":
+#         count, _ = LocationVO.objects.filter(id=location_id).delete()
+#         return JsonResponse(
+#             {"deleted": count > 0}
+#         )
+#     else:
+#         try:
+#             location = LocationVO.objects.get(id=location_id)
+#             return JsonResponse(
+#                 location,
+#                 encoder=LocationVOEncoder,
+#                 safe=False
+#             )
+#         except LocationVO.DoesNotExist:
+#             return JsonResponse(
+#                 {"message": "Invalid id"},
+#                 status=400
+#             )
 
 
 # Lists the hat names and the link to the hat location
@@ -113,14 +141,29 @@ def api_list_hats(request, location_id=None):
         )
 
 
-@require_http_methods(["DELETE", "GET"])
+@require_http_methods(["DELETE", "PUT", "GET"])
 def api_hat_details(request, hats_id):
     if request.method == "DELETE":
         count, _ = Hat.objects.filter(id=hats_id).delete()
         return JsonResponse(
             {"deleted": count > 0}
         )
-    else:
+    elif request.method == "PUT":
+        try:
+            body = json.loads(request.body)
+            Hat.objects.filter(id=hats_id).update(**body)
+            hat = Hat.objects.get(id=hats_id)
+            return JsonResponse(
+                hat,
+                encoder=HatDetailEncoder,
+                safe=False
+            )
+        except Hat.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid hat id"},
+                status=400
+            )
+    else:  # "GET"
         try:
             hat = Hat.objects.get(id=hats_id)
             return JsonResponse(
@@ -130,6 +173,6 @@ def api_hat_details(request, hats_id):
             )
         except Hat.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid id"},
+                {"message": "Invalid hat id"},
                 status=400
             )
