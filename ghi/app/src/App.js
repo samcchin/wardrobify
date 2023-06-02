@@ -29,6 +29,7 @@ function App(props) {
     if (response.ok){
       const data = await response.json();
       setBins(data.bins);
+      console.log(data)
     }
   }
 
@@ -47,6 +48,7 @@ function App(props) {
     if (response.ok){
       const data = await response.json();
       setShoes(data.shoes);
+      console.log(data)
     } else {
       console.error(response);
     }

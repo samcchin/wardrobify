@@ -86,25 +86,25 @@ def api_list_locations(request):
 #             )
 #         except LocationVO.DoesNotExist:
 #             return JsonResponse({"message":"Does"})
-# def api_location_details(request, location_id):
-#     if request.method == "DELETE":
-#         count, _ = LocationVO.objects.filter(id=location_id).delete()
-#         return JsonResponse(
-#             {"deleted": count > 0}
-#         )
-#     else:
-#         try:
-#             location = LocationVO.objects.get(id=location_id)
-#             return JsonResponse(
-#                 location,
-#                 encoder=LocationVOEncoder,
-#                 safe=False
-#             )
-#         except LocationVO.DoesNotExist:
-#             return JsonResponse(
-#                 {"message": "Invalid id"},
-#                 status=400
-#             )
+def api_location_details(request, location_id):
+    if request.method == "DELETE":
+        count, _ = LocationVO.objects.filter(id=location_id).delete()
+        return JsonResponse(
+            {"deleted": count > 0}
+        )
+    else:
+        try:
+            location = LocationVO.objects.get(id=location_id)
+            return JsonResponse(
+                location,
+                encoder=LocationVOEncoder,
+                safe=False
+            )
+        except LocationVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid id"},
+                status=400
+            )
 
 
 # Lists the hat names and the link to the hat location
