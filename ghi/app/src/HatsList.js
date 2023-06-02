@@ -3,11 +3,11 @@ import React, {useState} from 'react';
 
 
 function HatsList(props) {
+    const [hats, setHats] = useState('');
+
     if (!props.hats || !Array.isArray(props.hats)) {
       return null;
     }
-
-    const [hats, setHats] = useState('');
 
     const deleteHat = async (hatId) => {
         try {
@@ -57,7 +57,7 @@ function HatsList(props) {
         </tbody>
         </table>
     </>
-    );
+    )
   }
 
-  export default HatsList;
+  export default HatsList
