@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-function HatsForm(hats,) {
+function HatsForm(hats) {
     const [locations, setLocations] = useState([])
     const [style, setStyle] = useState('');
     const [fabric, setFabric] = useState('');
@@ -9,9 +9,8 @@ function HatsForm(hats,) {
     const [location, setLocation] = useState('');
 
     const fetchData = async () => {
-        const url = 'http://localhost:8090/api/locations/'
+        const url = 'http://localhost:8100/api/locations/'
         const response = await fetch(url);
-
         if (response.ok){
             const data = await response.json();
             setLocations(data.locations);
@@ -21,6 +20,7 @@ function HatsForm(hats,) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {};
+        console.log(data)
         data.style_name = style;
         data.fabric = fabric;
         data.color = color;
@@ -37,6 +37,7 @@ function HatsForm(hats,) {
           },
         };
         const response = await fetch(hatUrl, fetchConfig);
+        console.log(response)
         if (response.ok) {
           const newHat = await response.json();
           console.log(newHat)
@@ -128,7 +129,7 @@ function HatsForm(hats,) {
                     <option value="">Choose a location</option>
                     {locations.map(location=>{
                       return (
-                          <option key={location.id} value={location.import_href}>
+                          <option key={location.id} value={location.href}>
                               {location.closet_name}
                           </option>
                       )
