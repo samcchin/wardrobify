@@ -72,7 +72,7 @@ function App(props) {
           </Route>
           <Route path="hats">
             <Route index element={<HatsList hats={hats} />}/>
-            <Route path="new" element={<HatsForm hats={hats} getLocations={getLocations}/>}/>
+            <Route path="new" element={<HatsForm locations={locations} getLocations={getLocations}/>}/>
           </Route>
         </Routes>
       </div>

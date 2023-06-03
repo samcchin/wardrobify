@@ -56,7 +56,7 @@ function HatsList(props) {
                 <td>{hat.fabric}</td>
                 <td>{hat.color}</td>
                 <td>{hat.picture_url}</td>
-                <td>{hat.location.closet_name}</td>
+                <td>{hat.location}</td>
                 <td>
                     <button onClick={()=>deleteHat(hat.id)}>Delete</button>
                 </td>

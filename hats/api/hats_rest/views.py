@@ -10,7 +10,8 @@ class LocationVOEncoder(ModelEncoder):
     model = LocationVO
     properties = [
         "import_href",
-        "closet_name"
+        "closet_name",
+        "id"
     ]
 
 
@@ -24,9 +25,8 @@ class HatListEncoder(ModelEncoder):
         "picture_url",
         "location",
     ]
-    encoders = {
-        "location": LocationVOEncoder(),
-    }
+    def get_extra_data(self, o):
+        return {"location": o.location.closet_name}
 
 
 class HatDetailEncoder(ModelEncoder):
@@ -43,7 +43,7 @@ class HatDetailEncoder(ModelEncoder):
     }
 
     def get_extra_data(self, o):
-        return {"location": o.location.closet_name}
+        return {"location": o.location.import_href}
 
 
 @require_http_methods(["GET", "POST"])
