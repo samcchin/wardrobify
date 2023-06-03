@@ -12,6 +12,7 @@ function ShoesList(props){
             if (response.ok) {
                 setShoes((prevShoes) => prevShoes.filter((shoe) => shoe.id !== shoeId));
                 setHasDeletedSuccessfully(true)
+                window.location.reload()
             }
             else {
                 console.error("Unable to delete shoes");
