@@ -11,15 +11,18 @@ poll from the Wardrobe API of the monolith (Wardrobe) for data - Shoes poll for 
 Hats poll for Locations.
 
 Web Page / React Components:
+
 Shoes / ShoesList.js: Displays the list of created shoes and details, with an option to delete a shoe using the delete button.
+
 New Shoes / ShoesForm.js: Allows the user to create a new shoe upon submission of the form.
+
 Hats / HatsList.js: Displays the list of created hats and the details, with an option to delete a hat using the delete button.
+
 New Hats / HatForm.js: Allows the user to create a new hat upon submission of the form.
 
 ## Shoes microservice
 
-The Bin Value Object, defined as BinVO, is the value object for the
-Shoe Model. It is defined by polling from the Wardrobe-API Bin Model defined in the
+The Bin Value Object, defined as BinVO, is the value object for the Shoe Model. It is defined by polling from the Wardrobe-API Bin Model defined in the
 Wardrobe (monolith) for Shoes (microservice).
 
 The Shoe model is defined to store all instances of shoes in the
