@@ -23,6 +23,7 @@ class ShoeListEncoder(ModelEncoder):
         "color",
         "url",
         "bin",
+        "id",
         ]
 
     encoders = {
