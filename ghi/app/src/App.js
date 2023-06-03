@@ -29,13 +29,11 @@ function App(props) {
     if (response.ok){
       const data = await response.json();
       setBins(data.bins);
-      console.log(data)
     }
   }
 
   async function loadHats(){
     const response = await fetch('http://localhost:8090/api/hats/')
-    console.log(response)
     if (response.ok){
       const data = await response.json();
       setHats(data.hats);
@@ -49,7 +47,6 @@ function App(props) {
     if (response.ok){
       const data = await response.json();
       setShoes(data.shoes);
-      console.log(data)
     } else {
       console.error(response);
     }
@@ -60,7 +57,6 @@ function App(props) {
     getBins();
     loadHats();
     loadShoes();
-    console.log("Use effect fired!")
   }, []);
 
 
