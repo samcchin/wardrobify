@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 function ShoesForm(){
 
     const [bins, setBins] = useState([]);
-    const [bin, setBin] = useState([]);
+    const [bin, setBin] = useState("");
     const [modelName, setModelName] = useState("");
     const [manufacturer, setManufacturer] = useState("");
     const [color, setColor] = useState("");
@@ -38,23 +38,25 @@ function ShoesForm(){
         event.preventDefault();
         const formdata = {};
 
-        formdata.modelName = modelName;
+        formdata.model_name = modelName;
         formdata.bin = bin;
         formdata.manufacturer = manufacturer;
         formdata.color = color;
-        formdata.pictureURL = pictureURL;
+        formdata.url = pictureURL;
+        console.log(formdata);
 
 
-        const shoeUrl = `http://localhost:8080/api/shoes/`;
+        const shoeUrl = 'http://localhost:8080/api/shoes/';
         const fetchConfig = {
           method: "post",
           body: JSON.stringify(formdata),
           headers: {
             'Content-Type': 'application/json',
-          },
-        };
+          }
+        }
 
         const response = await fetch(shoeUrl, fetchConfig);
+        console.log(response);
         if (response.ok) {
           const newShoes = await response.json();
           console.log(newShoes);
@@ -107,7 +109,7 @@ function ShoesForm(){
                             <option value="">Choose a Bin</option>
                             {bins.map(bin => {
                                         return (
-                                            <option value={bin.id} key={bin.href}>
+                                            <option value={bin.href} key={bin.id}>
                                                 {bin.closet_name}
                                             </option>
                                         )

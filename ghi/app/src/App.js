@@ -35,6 +35,7 @@ function App(props) {
 
   async function loadHats(){
     const response = await fetch('http://localhost:8090/api/hats/')
+    console.log(response)
     if (response.ok){
       const data = await response.json();
       setHats(data.hats);
@@ -71,7 +72,7 @@ function App(props) {
           <Route path="/" element={<MainPage />} />
           <Route path="shoes">
             <Route index element={<ShoesList shoes={shoes}/>}/>
-            <Route path="new" element={<ShoesForm getBins={getBins} />}/>
+            <Route path="new" element={<ShoesForm getBins={getBins} bins={bins} />}/>
           </Route>
           <Route path="hats">
             <Route index element={<HatsList hats={hats} />}/>

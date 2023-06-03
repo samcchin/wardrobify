@@ -1,4 +1,9 @@
+import React, { useState } from 'react';
+
 function ShoesList(props){
+    const [shoes, setShoes] = useState('');
+
+
     return(
         <table className="table table-striped">
           <thead>
@@ -7,6 +12,7 @@ function ShoesList(props){
               <th>Manufacturer</th>
               <th>Bin</th>
               <th>Color</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -17,6 +23,9 @@ function ShoesList(props){
                   <td>{ shoe.manufacturer }</td>
                   <td>{ shoe.bin.closet_name } - { shoe.bin.bin_number } / { shoe.bin.bin_size }</td>
                   <td>{ shoe.color }</td>
+                  <td>
+                    <button>Delete</button>
+                  </td>
                 </tr>
               );
             })}
