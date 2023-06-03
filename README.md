@@ -10,6 +10,11 @@ Both Shoes and Hats are microservices of the Wardrobe application. Both microser
 poll from the Wardrobe API of the monolith (Wardrobe) for data - Shoes poll for Bins and
 Hats poll for Locations.
 
+Web Page / React Components:
+Shoes / ShoesList.js: Displays the list of created shoes and details, with an option to delete a shoe using the delete button.
+New Shoes / ShoesForm.js: Allows the user to create a new shoe upon submission of the form.
+Hats / HatsList.js: Displays the list of created hats and the details, with an option to delete a hat using the delete button.
+New Hats / HatForm.js: Allows the user to create a new hat upon submission of the form.
 
 ## Shoes microservice
 

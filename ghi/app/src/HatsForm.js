@@ -26,7 +26,7 @@ function HatsForm(hats,) {
         data.color = color;
         data.picture_url = pictureUrl;
         data.location = location;
-        console.log(data)
+
 
         const hatUrl = 'http://localhost:8090/api/hats/';
         const fetchConfig = {
@@ -37,11 +37,9 @@ function HatsForm(hats,) {
           },
         };
         const response = await fetch(hatUrl, fetchConfig);
-        console.log(response)
         if (response.ok) {
           const newHat = await response.json();
-          console.log(newHat);
-
+          console.log(newHat)
           setStyle('');
           setFabric('');
           setColor('');
