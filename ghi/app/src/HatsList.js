@@ -18,7 +18,6 @@ function HatsList(props) {
             if (response.ok){
                 setHats((prevHats) => prevHats.filter((hat)=> hat.id !== hatId));
                 setHasDeletedSuccessfully(true)
-                
             }
             else {
                 console.error('Unable to delete hat');
